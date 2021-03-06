@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: "aksdevopsbc-3863"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: "aksdevopsbc-3863"
+  template:
+    metadata:
+      labels:
+        app: "aksdevopsbc-3863"
+    spec:
+      containers:
+        - name: "aksdevopsbc-3863"
+          image: "acrdevopsbc.azurecr.io/aksdevopsbc"
+          ports:
+          - containerPort: 80
