@@ -1,0 +1,50 @@
+on: [push]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    
+    - uses: azure/docker-login@v1
+      with:
+        login-server: acrdevopsbc.azurecr.io
+        username: ${{ secrets.acr_acrdevopsbc_username }}
+        password: ${{ secrets.acr_acrdevopsbc_password }}
+    
+    - name: Build and push image to ACR
+      id: build-image
+      run: |
+        docker build "$GITHUB_WORKSPACE/" -f  "dockerfile" -t acrdevopsbc.azurecr.io/aksdevopsbc:${{ github.sha }} --label dockerfile-path=dockerfile
+        docker push acrdevopsbc.azurecr.io/aksdevopsbc:${{ github.sha }}
+    
+    - uses: azure/k8s-set-context@v1
+      with:
+         kubeconfig: ${{ secrets.aks_aksdevopsbc_kubeConfig }}
+      id: login
+    
+    - name: Create namespace
+      run: |
+        namespacePresent=`kubectl get namespace | grep aksdevopsbc9f05 | wc -l`
+        if [ $namespacePresent -eq 0 ]
+        then
+            echo `kubectl create namespace aksdevopsbc9f05`
+        fi
+
+    - uses: azure/k8s-create-secret@v1
+      with:
+        namespace: aksdevopsbc9f05
+        container-registry-url: acrdevopsbc.azurecr.io
+        container-registry-username: ${{ secrets.acr_acrdevopsbc_username }}
+        container-registry-password: ${{ secrets.acr_acrdevopsbc_password }}
+        secret-name: aksdevopsbcdockerauth
+       
+    - uses: azure/k8s-deploy@v1.2
+      with:
+        namespace: aksdevopsbc9f05
+        manifests: |
+          manifests/deployment.yml
+          manifests/service.yml
+        images: |
+          acrdevopsbc.azurecr.io/aksdevopsbc:${{ github.sha }}
+        imagepullsecrets: |
+          aksdevopsbcdockerauth
