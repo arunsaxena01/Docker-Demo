@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
       - name: myapp
-        image: acrdevopsbc.azurecr.io/dockerk8sdemo
+        #image: acrdevopsbc.azurecr.io/dockerk8sdemo
+        image: manivannanmari/dockerdemocasestudy:latest
         ports:
         - containerPort: 8080
 ---
