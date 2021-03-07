@@ -54,10 +54,19 @@ pipeline {
              
             steps {
                 //sh "docker -H ssh://root@52.255.157.89 run -d -p 8003:8080 manivannanmari/samplewebapp"
-                sh "docker -H ssh://root@35.174.204.80 run -d -p 8081:8080 manivannanmari/dockerdemocasestudy"
+                //sh "docker -H ssh://root@35.174.204.80 run -d -p 8081:8080 manivannanmari/dockerdemocasestudy"
               //  sh "docker -H ssh://jenkins@100.25.118.2 run --privileged -p 8081:8080 manivannanmari/samplewebapp"
- 
+ 		echo "Printing "
             }
         } 
+    stage('Deploy App in Kuberneter cluster') {
+             
+            steps {
+               withCredentials([usernamePassword(credentialsId: 'b17919c0-75ee-497a-8620-109f3a5cd643', usernameVariable: 'ACR_ID', passwordVariable: 'ACR_PASSWORD')]) {
+		sh 'kubectl apply -f deployment.yaml'		
+		}
+ 
+            }
+        } 	 
     }
 	}
