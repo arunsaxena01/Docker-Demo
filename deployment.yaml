@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: myapp
-        image: acrdevopsbc.azurecr.io/dockerk8sdemo:tagversion
+        image: acrdevopsbc.azurecr.io/dockerk8sdemo
         ports:
         - containerPort: 8080
 ---
