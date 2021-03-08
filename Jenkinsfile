@@ -26,7 +26,7 @@ pipeline {
            steps {
               
                 sh 'docker build -t dockerdemocasestudy:latest .' 
-                sh 'docker tag dockerdemocasestudy manivannanmari/dockerdemocasestudy:latest'              
+                sh 'docker tag dockerdemocasestudy manivannanmari/dockerdemocasestudy1:latest'              
                
           }
         }
@@ -35,7 +35,7 @@ pipeline {
           
             steps {
         withDockerRegistry([ credentialsId: "dockerMani", url: "" ]) {
-          sh  'docker push manivannanmari/dockerdemocasestudy:latest' 
+          sh  'docker push manivannanmari/dockerdemocasestudy1:latest' 
         }
                   
           }
@@ -55,7 +55,7 @@ pipeline {
             steps {
                 //sh "docker -H ssh://root@52.255.157.89 run -d -p 8003:8080 manivannanmari/samplewebapp"
                 //sh "docker -H ssh://root@35.174.204.80 run -d -p 8081:8080 manivannanmari/dockerdemocasestudy"
-              //  sh "docker -H ssh://jenkins@100.25.118.2 run --privileged -p 8081:8080 manivannanmari/samplewebapp"
+               sh "docker -H ssh://root@20.36.199.150 run --privileged -p 8081:8080 manivannanmari/dockerdemocasestudy1"
  		echo "Printing "
             }
         } 
@@ -65,7 +65,7 @@ pipeline {
                withCredentials([usernamePassword(credentialsId: 'acr-credentials', usernameVariable: 'ACR_ID', passwordVariable: 'ACR_PASSWORD')]) {
 		//sh 'kubectl apply -f deployment.yaml'	
 		 //sh 'kubectl set image -n default deployment/myapp myapp=manivannanmari/dockerdemocasestudy:latest'  
-		 echo 'kubectl set image -n default deployment/myapp myapp=manivannanmari/dockerdemocasestudy:latest'
+		 echo 'kubectl set image -n default deployment/myapp myapp=manivannanmari/dockerdemocasestudy1:latest'
 		}
  
             }
