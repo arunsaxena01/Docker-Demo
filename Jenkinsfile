@@ -62,7 +62,7 @@ pipeline {
     stage('Deploy App in Kuberneter cluster') {
              
             steps {
-               withCredentials([usernamePassword(credentialsId: 'b17919c0-75ee-497a-8620-109f3a5cd643', usernameVariable: 'ACR_ID', passwordVariable: 'ACR_PASSWORD')]) {
+               withCredentials([usernamePassword(credentialsId: 'acr-credentials', usernameVariable: 'ACR_ID', passwordVariable: 'ACR_PASSWORD')]) {
 		sh 'kubectl apply -f deployment.yaml'		
 		}
  
