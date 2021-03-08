@@ -55,7 +55,7 @@ pipeline {
             steps {
                 //sh "docker -H ssh://root@52.255.157.89 run -d -p 8003:8080 manivannanmari/samplewebapp"
                 //sh "docker -H ssh://root@35.174.204.80 run -d -p 8081:8080 manivannanmari/dockerdemocasestudy"
-               sh "docker -H ssh://root@20.36.199.150 run --privileged -p 8081:8080 manivannanmari/dockerdemocasestudy1"
+               sh "docker -H ssh://root@20.36.199.150 run -d -p 8081:8080 manivannanmari/dockerdemocasestudy1"
  		echo "Printing "
             }
         } 
